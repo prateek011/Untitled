@@ -6,7 +6,7 @@ public static class JsonObjectExtensionConflictException extends Exception {
 
     }
 
-    public static void extendJsonObject(JsonObject destinationObject, ConflictStrategy conflictResolutionStrategy, JsonObject ... objs) 
+    public static void extendJsonObject(JsonObject destinationObject, JsonObject ... objs) 
             throws JsonObjectExtensionConflictException {
         for (JsonObject obj : objs) {
             extendJsonObject(destinationObject, obj);
