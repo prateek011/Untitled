@@ -39,3 +39,28 @@ public static class JsonObjectExtensionConflictException extends Exception {
             }
         }
     }
+    
+    public static JsonObject addElement(JsonObject jObject,String jsonPath, String value) {
+    	String [] split_path = jsonPath.split("\\.");
+    	JsonObject jStrTemp = jObject;
+    	for (int i = split_path.length-1; i > 0 ; i--) {
+    		if(split_path[i].contains("[") && split_path[i].endsWith("]")){
+				int arrayStartIndex = split_path[i].indexOf("["+"");
+				split_path[i] =  split_path[i].substring(0, arrayStartIndex);
+				JsonArray jarr = new JsonArray();
+				jarr.add(jStrTemp);
+				JsonObject jobj = new JsonObject();
+				jobj.add(split_path[i], jarr);
+				jStrTemp = jobj;
+    		}
+			else if (i == split_path.length -1 ) {
+				jStrTemp.addProperty(split_path[i], value);
+			}
+			else {
+				JsonObject jstr = new JsonObject();
+				jstr.add(split_path[i], jStrTemp);
+				jStrTemp = jstr;
+			}
+		}
+		return jStrTemp;
+    }
